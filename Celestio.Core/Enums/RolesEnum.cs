@@ -6,5 +6,5 @@ public enum RolesEnum
     AgencyAdmin = 2,
     Creator = 3,
     User = 4,
-    BrandAdmin = 5
+    BrandAdmin = 5 // administrator for single brand
 }
