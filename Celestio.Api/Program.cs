@@ -1,6 +1,14 @@
 using System.Reflection;
 using System.Text;
 using Celestio.Api.Data;
+using Celestio.Api.Data.Entities;
+using Celestio.Api.Services.AuthService;
+using Celestio.Api.Services.BrandService;
+using Celestio.Api.Services.BriefService;
+using Celestio.Api.Services.CategoryService;
+using Celestio.Api.Services.CompanyService;
+using Celestio.Api.Services.MediaService;
+using Celestio.Api.Services.SocialMediaService;
 using Celestio.Api.Services.UserService;
 using Celestio.Core.Models.User;
 using FluentValidation;
@@ -115,9 +123,14 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 #region Services
 
-
 builder.Services.AddScoped<IUserService, UserService>();
-
+// builder.Services.AddScoped<IAuthService, AuthService>(); // TODO think about if this is needed
+builder.Services.AddScoped<IBriefService, BriefService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IMediaService, MediaService>();
+builder.Services.AddScoped<ISocialMediaService, SocialMediaService>();
 
 #endregion
 
@@ -143,7 +156,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.MapHub<ConnectorStatusHub>("/hubs/connectorStatus");
+//app.MapHub<ConnectorStatusHub>("/hubs/connectorStatus"); // placeholder, example for SignalR
 
 
 app.Run();

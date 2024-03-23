@@ -45,7 +45,6 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<string>> Login(LoginDto login)
     {
-        
         var user = await _userService.GetUserByUsernameOrEmail(login.Username, login.Email);
         if (user is null)
             return BadRequest("User not found.");

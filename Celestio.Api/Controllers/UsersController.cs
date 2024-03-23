@@ -20,7 +20,7 @@ public class UsersController : ControllerBase
     }
     
     
-    [HttpGet("GetAllUsers")]
+    [HttpGet("all")]
     public async Task<ActionResult<UserDto>> GetAllUsers()
     {
         var users = await _userService.GetAllUsers();
