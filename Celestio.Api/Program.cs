@@ -124,7 +124,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 #region Services
 
 builder.Services.AddScoped<IUserService, UserService>();
-// builder.Services.AddScoped<IAuthService, AuthService>(); // TODO think about if this is needed
+builder.Services.AddScoped<IAuthService, AuthService>(); // TODO think about if this is needed
 builder.Services.AddScoped<IBriefService, BriefService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();

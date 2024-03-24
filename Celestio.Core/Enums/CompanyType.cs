@@ -1,6 +1,6 @@
 namespace Celestio.Core.Enums;
 
-public enum CompanyTypes
+public enum CompanyType
 {
     Agency,
     SelfManagingCompany, // or "SingleBrand or something..."

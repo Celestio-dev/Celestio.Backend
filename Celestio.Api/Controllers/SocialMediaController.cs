@@ -1,7 +1,10 @@
 using Celestio.Api.Services.SocialMediaService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Celestio.Api.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class SocialMediaController
 {
     private readonly ILogger _logger;

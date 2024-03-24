@@ -4,6 +4,7 @@ using Celestio.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Celestio.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240324164134_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,9 +79,6 @@ namespace Celestio.Api.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
@@ -120,28 +120,6 @@ namespace Celestio.Api.Migrations
                     b.HasIndex("ProfilePicMediaId");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CompanyDescription = "Celestio Content description woo",
-                            CompanyName = "Celestio",
-                            ContactEmail = "celestio.dev@gmail.com",
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProfilePicMediaId = 1,
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CompanyDescription = "Agencija 404 za kreatore",
-                            CompanyName = "Agency 404",
-                            ContactEmail = "contact@404.com",
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProfilePicMediaId = 1,
-                            Type = 0
-                        });
                 });
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.CompanyBrand", b =>
@@ -171,9 +149,6 @@ namespace Celestio.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BriefId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -186,8 +161,6 @@ namespace Celestio.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BriefId");
 
                     b.ToTable("Media");
 
@@ -253,12 +226,6 @@ namespace Celestio.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BrandId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -280,10 +247,6 @@ namespace Celestio.Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("UserId");
 
@@ -334,9 +297,6 @@ namespace Celestio.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -366,13 +326,7 @@ namespace Celestio.Api.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("ProfilePicMediaId");
 
@@ -384,30 +338,14 @@ namespace Celestio.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CompanyId = 1,
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "teo@teo.com",
                             FirstName = "Teo",
-                            LastName = "Ivančević (č, ć, dž, đ, š, ž)",
-                            PasswordHash = new byte[] { 2, 202, 149, 236, 59, 10, 177, 248, 231, 153, 2, 81, 226, 125, 241, 9, 103, 37, 43, 105, 21, 142, 1, 190, 244, 77, 114, 104, 247, 52, 180, 98, 167, 141, 8, 75, 23, 68, 240, 82, 147, 113, 192, 126, 140, 64, 201, 88, 165, 126, 141, 233, 1, 178, 149, 56, 25, 143, 97, 179, 198, 155, 140, 191 },
-                            PasswordSalt = new byte[] { 6, 86, 100, 247, 245, 0, 206, 217, 101, 56, 160, 255, 170, 84, 175, 110, 68, 82, 108, 79, 133, 156, 136, 217, 97, 94, 104, 154, 140, 44, 176, 158, 35, 67, 34, 169, 43, 169, 127, 220, 65, 50, 166, 90, 238, 250, 97, 230, 41, 138, 181, 96, 79, 215, 218, 17, 20, 19, 155, 119, 75, 246, 27, 115, 84, 51, 89, 233, 231, 185, 47, 218, 66, 68, 88, 153, 197, 243, 201, 36, 127, 176, 225, 208, 163, 87, 180, 128, 147, 53, 145, 252, 246, 85, 71, 249, 155, 150, 122, 224, 117, 78, 3, 154, 144, 203, 9, 182, 151, 35, 209, 154, 28, 130, 114, 116, 37, 94, 205, 30, 32, 209, 29, 133, 18, 177, 177, 40 },
+                            LastName = "Ivancevic",
+                            PasswordHash = new byte[] { 111, 90, 151, 205, 107, 71, 36, 123, 96, 51, 145, 239, 41, 130, 221, 139, 15, 74, 147, 243, 0, 92, 78, 136, 242, 23, 124, 136, 95, 213, 173, 22, 124, 237, 19, 176, 154, 16, 56, 213, 225, 131, 235, 14, 145, 141, 58, 193, 171, 73, 23, 23, 168, 144, 223, 95, 100, 136, 201, 131, 149, 231, 89, 84 },
+                            PasswordSalt = new byte[] { 210, 29, 17, 125, 137, 129, 240, 147, 60, 115, 157, 144, 98, 11, 240, 23, 172, 98, 131, 180, 155, 85, 223, 229, 112, 189, 201, 207, 93, 162, 203, 126, 70, 153, 227, 80, 58, 182, 5, 38, 168, 176, 245, 205, 77, 172, 38, 29, 191, 168, 66, 106, 139, 172, 205, 118, 165, 180, 145, 159, 13, 169, 193, 157, 49, 13, 151, 255, 131, 232, 244, 3, 92, 52, 116, 162, 48, 10, 78, 164, 38, 211, 96, 81, 66, 36, 199, 20, 104, 81, 221, 12, 106, 62, 41, 175, 94, 113, 137, 5, 168, 159, 136, 138, 247, 206, 19, 129, 146, 212, 7, 119, 169, 74, 26, 97, 23, 192, 8, 226, 30, 216, 192, 247, 244, 204, 136, 239 },
                             ProfilePicMediaId = 1,
-                            RoleId = 1,
-                            UserDescription = "Ja sam teo bla bla"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CompanyId = 2,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "leonarda@404.com",
-                            FirstName = "Leonarda",
-                            LastName = "Lovrić",
-                            PasswordHash = new byte[] { 57, 11, 176, 82, 193, 74, 240, 166, 60, 154, 17, 80, 11, 69, 62, 103, 192, 196, 217, 133, 243, 200, 139, 12, 113, 107, 4, 114, 53, 69, 83, 30, 147, 142, 221, 51, 239, 196, 82, 175, 245, 7, 152, 25, 214, 155, 49, 97, 185, 253, 192, 130, 92, 11, 122, 120, 20, 188, 53, 79, 7, 113, 182, 105 },
-                            PasswordSalt = new byte[] { 131, 213, 127, 241, 168, 233, 129, 164, 0, 88, 207, 247, 46, 81, 131, 217, 212, 185, 163, 41, 180, 159, 150, 214, 221, 207, 162, 73, 1, 162, 126, 248, 157, 214, 125, 93, 242, 164, 128, 164, 51, 10, 4, 73, 62, 15, 181, 65, 162, 55, 34, 82, 77, 188, 109, 76, 172, 210, 157, 236, 29, 113, 75, 106, 196, 42, 162, 172, 232, 203, 246, 208, 151, 140, 241, 40, 167, 78, 209, 157, 100, 52, 36, 60, 249, 64, 30, 54, 210, 109, 88, 131, 145, 148, 67, 130, 46, 53, 231, 159, 239, 21, 130, 20, 138, 127, 95, 85, 132, 53, 130, 69, 73, 159, 155, 21, 46, 170, 175, 87, 190, 66, 243, 156, 157, 29, 136, 31 },
-                            ProfilePicMediaId = 1,
-                            RoleId = 2,
-                            UserDescription = "Ja sam leonarda bla bla"
+                            RoleId = 1
                         });
                 });
 
@@ -443,13 +381,11 @@ namespace Celestio.Api.Migrations
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Brief", b =>
                 {
-                    b.HasOne("Celestio.Api.Data.Entities.Brand", "Brand")
+                    b.HasOne("Celestio.Api.Data.Entities.Brand", null)
                         .WithMany("Briefs")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Company", b =>
@@ -463,23 +399,8 @@ namespace Celestio.Api.Migrations
                     b.Navigation("ProfilePicMedia");
                 });
 
-            modelBuilder.Entity("Celestio.Api.Data.Entities.Media", b =>
-                {
-                    b.HasOne("Celestio.Api.Data.Entities.Brief", null)
-                        .WithMany("Mediae")
-                        .HasForeignKey("BriefId");
-                });
-
             modelBuilder.Entity("Celestio.Api.Data.Entities.SocialMedia", b =>
                 {
-                    b.HasOne("Celestio.Api.Data.Entities.Brand", null)
-                        .WithMany("SocialMediae")
-                        .HasForeignKey("BrandId");
-
-                    b.HasOne("Celestio.Api.Data.Entities.Company", null)
-                        .WithMany("SocialMediae")
-                        .HasForeignKey("CompanyId");
-
                     b.HasOne("Celestio.Api.Data.Entities.User", null)
                         .WithMany("SocialMediae")
                         .HasForeignKey("UserId");
@@ -487,12 +408,6 @@ namespace Celestio.Api.Migrations
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.User", b =>
                 {
-                    b.HasOne("Celestio.Api.Data.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Celestio.Api.Data.Entities.Media", "ProfilePicMedia")
                         .WithMany()
                         .HasForeignKey("ProfilePicMediaId")
@@ -505,8 +420,6 @@ namespace Celestio.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
-
                     b.Navigation("ProfilePicMedia");
 
                     b.Navigation("Role");
@@ -515,18 +428,6 @@ namespace Celestio.Api.Migrations
             modelBuilder.Entity("Celestio.Api.Data.Entities.Brand", b =>
                 {
                     b.Navigation("Briefs");
-
-                    b.Navigation("SocialMediae");
-                });
-
-            modelBuilder.Entity("Celestio.Api.Data.Entities.Brief", b =>
-                {
-                    b.Navigation("Mediae");
-                });
-
-            modelBuilder.Entity("Celestio.Api.Data.Entities.Company", b =>
-                {
-                    b.Navigation("SocialMediae");
                 });
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Role", b =>

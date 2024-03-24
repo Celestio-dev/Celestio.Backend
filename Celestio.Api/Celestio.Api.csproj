@@ -31,4 +31,8 @@
       <ProjectReference Include="..\Celestio.Core\Celestio.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>
