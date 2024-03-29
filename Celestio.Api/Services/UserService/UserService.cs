@@ -28,7 +28,18 @@ public class UserService : IUserService
     
     public async Task<UserDto> GetUserByEmail(string email)
     {
-        throw new NotImplementedException();
+        var userEntity = await _context.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+
+        var userDto = _mapper.Map<UserDto>(userEntity);
+        return userDto;
+    }
+
+    public async Task<UserDto> GetUserById(int id)
+    {
+        var userEntity = await _context.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+        var userDto = _mapper.Map<UserDto>(userEntity);
+        return userDto;
     }
     
     

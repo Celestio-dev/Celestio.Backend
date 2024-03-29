@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Celestio.Core.Enums;
 using Celestio.Core.Models.User;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,8 +14,10 @@ public class JwtHelper
         //var roleName = Enum.GetName(typeof(RolesEnum), user.RoleId);
         List<Claim> claims = new()
         {
-            new Claim(ClaimTypes.Name, user.Username),
+            //new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim(CelestioClaimTypes.CompanyId, user.CompanyId.ToString()),
             new Claim(ClaimTypes.Role, roleName)
         };
 

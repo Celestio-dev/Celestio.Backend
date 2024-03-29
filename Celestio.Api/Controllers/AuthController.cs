@@ -35,9 +35,8 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<UserDto>> RegisterUser(RegisterUserDto registerUser)
     {
-        
-        
-        throw new NotImplementedException();
+        await _authService.CreateUser(registerUser);
+        return Ok(registerUser);
     }
     
     /// <summary>
@@ -66,6 +65,18 @@ public class AuthController : ControllerBase
 
         string token = JwtHelper.CreateToken(user, role, _configuration.GetSection("Jwt:Key").Value);
         return Ok(token);
+    }
+    
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<ActionResult<UserDto>> GetAuthenticatedUser()
+    {
+        AuthenticatedUser? authUser = UserHelper.GetAuthUserFromClaims(User);
+        if (authUser is null) return Unauthorized();
+
+        var user = await _userService.GetUserById(authUser.UserId);
+        return Ok(user);
+        //throw new NotImplementedException();
     }
 
     

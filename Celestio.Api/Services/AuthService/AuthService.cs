@@ -1,5 +1,6 @@
 using AutoMapper;
 using Celestio.Api.Data;
+using Celestio.Core.Enums;
 using Celestio.Core.Helpers;
 using Celestio.Core.Models.User;
 
@@ -15,7 +16,26 @@ public class AuthService : IAuthService
         _context = dbContext;
         _mapper = mapper;
     }
-    
+
+
+    public async Task<RegisterUserDto> CreateUser(RegisterUserDto registerUser)
+    {
+        var userEntity = _mapper.Map<Data.Entities.User>(registerUser);
+        UserHelper.CreatePasswordHash(registerUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        userEntity.PasswordHash = passwordHash;
+        userEntity.PasswordSalt = passwordSalt;
+
+        userEntity.RoleId = (int) RolesEnum.User;
+        userEntity.CompanyId = 1;
+        
+        _context.Users.Add(userEntity);
+        await _context.SaveChangesAsync();
+
+        
+        await _context.SaveChangesAsync();
+
+        return registerUser;
+    }
     
     public async Task<bool> Login(UserDto user, string password)
     {
