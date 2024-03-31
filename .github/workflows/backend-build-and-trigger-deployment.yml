@@ -18,18 +18,32 @@ jobs:
         login-server: acrCelestioTest.azurecr.io
         username: ${{ secrets.AZURE_ACR_CREDENTIALS_USERNAME }}
         password: ${{ secrets.AZURE_ACR_CREDENTIALS_PASSWORD }}
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
+    - name: Determine Tag
+      id: vars
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+        else
+          echo "::set-output name=tag::$(echo ${GITHUB_REF#refs/heads/} | tr / -)"
+        fi
     - name: Build and push image
       run: |
-        IMAGE_TAG=${GITHUB_REF#refs/tags/}
-        docker build . -t acrCelestioTest.azurecr.io/celestio.api:${IMAGE_TAG}
-        docker push acrCelestioTest.azurecr.io/celestio.api:${IMAGE_TAG}
+        IMAGE_TAG=${{ steps.vars.outputs.tag }}
+        docker build . -t acrCelestioTest.azurecr.io/your-image:${IMAGE_TAG}
+        docker push acrCelestioTest.azurecr.io/your-image:${IMAGE_TAG}
         
-        # Optionally, also tag and push as 'latest' or 'test'
-        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          docker tag acrCelestioTest.azurecr.io/celestio.api:${IMAGE_TAG} acrCelestioTest.azurecr.io/Celestio.Api:latest
-          docker push acrCelestioTest.azurecr.io/celestio.api:latest
-        fi
+       # # Optionally, also tag and push as 'latest' or 'test'
+       #  if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
+       #    docker tag <your_acr_name>.azurecr.io/your-image:${IMAGE_TAG} <your_acr_name>.azurecr.io/your-image:latest
+       #    docker push <your_acr_name>.azurecr.io/your-image:latest
+       #  elif [ "${GITHUB_REF}" == "refs/heads/test" ]; then
+       #    docker tag <your_acr_name>.azurecr.io/your-image:${IMAGE_TAG} <your_acr_name>.azurecr.io/your-image:test
+       #    docker push <your_acr_name>.azurecr.io/your-image:test
+       #  fi
 
   trigger-deployment:
     runs-on: ubuntu-latest
