@@ -19,6 +19,11 @@ public class BrandController : ControllerBase
         _brandService = brandService;
     }
     
+    /// <summary>
+    /// Brand profile page
+    /// </summary>
+    /// <param name="brandId"></param>
+    /// <returns></returns>
     [HttpGet("{brandId}")]
     public async Task<ActionResult<BrandDto>> GetBrandProfileById(int brandId)
     {

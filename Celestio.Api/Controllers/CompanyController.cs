@@ -21,7 +21,11 @@ public class CompanyController : ControllerBase
         _configuration = configuration;
         _companyService = companyService;
     }
-
+    /// <summary>
+    /// Agency/company profile page
+    /// </summary>
+    /// <param name="companyId"></param>
+    /// <returns></returns>
     [HttpGet("{companyId}")]
     public async Task<ActionResult<CompanyDto>> GetCompanyProfileById(int companyId)
     {
