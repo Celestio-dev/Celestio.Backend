@@ -1,11 +1,15 @@
 using Celestio.Api.Services.CompanyService;
+using Celestio.Core.Models.Company;
+//using Microsoft.AspNetCore.Http.HttpResults;
+//using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Celestio.Api.Controllers;
 
-[ApiController]
+
 [Route("api/[controller]")]
-public class CompanyController
+[ApiController]
+public class CompanyController : ControllerBase
 {
     private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
@@ -16,5 +20,16 @@ public class CompanyController
         _logger = logger;
         _configuration = configuration;
         _companyService = companyService;
+    }
+
+    [HttpGet("{companyId}")]
+    public async Task<ActionResult<CompanyDto>> GetCompanyProfileById(int companyId)
+    {
+        var company = await _companyService.GetCompanyProfileById(companyId);
+        if (company is null)
+        {
+            return NotFound("company not found");
+        }
+        return Ok(company);
     }
 }

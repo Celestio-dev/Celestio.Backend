@@ -38,6 +38,9 @@ namespace Celestio.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -46,9 +49,12 @@ namespace Celestio.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfilePicMediaId");
+                    b.HasIndex("CompanyId");
 
-                    b.ToTable("Brands");
+                    b.HasIndex("ProfilePicMediaId")
+                        .IsUnique();
+
+                    b.ToTable("Brand", (string)null);
                 });
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Brief", b =>
@@ -189,13 +195,13 @@ namespace Celestio.Api.Migrations
 
                     b.HasIndex("BriefId");
 
-                    b.ToTable("Media");
+                    b.ToTable("Role", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Created = new DateTime(2024, 3, 31, 17, 8, 43, 364, DateTimeKind.Local).AddTicks(9310),
                             MediaType = "aaa",
                             MediaUrl = "lasbd url media"
                         });
@@ -260,7 +266,9 @@ namespace Celestio.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 3, 31, 15, 8, 43, 364, DateTimeKind.Utc).AddTicks(8660));
 
                     b.Property<int>("DocId")
                         .HasColumnType("int");
@@ -269,6 +277,10 @@ namespace Celestio.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SocialMediaUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SocialMediaUsername")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -287,7 +299,7 @@ namespace Celestio.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SocialMediae");
+                    b.ToTable("SocialMedia", (string)null);
                 });
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Submission", b =>
@@ -387,8 +399,8 @@ namespace Celestio.Api.Migrations
                             Email = "teo@teo.com",
                             FirstName = "Teo",
                             LastName = "Ivančević (č, ć, dž, đ, š, ž)",
-                            PasswordHash = new byte[] { 11, 214, 102, 157, 173, 184, 236, 215, 227, 128, 128, 88, 1, 92, 134, 210, 76, 58, 221, 73, 69, 76, 197, 204, 230, 114, 235, 195, 33, 142, 139, 92, 5, 254, 242, 3, 64, 244, 245, 60, 92, 123, 121, 130, 199, 233, 172, 98, 178, 86, 155, 161, 117, 160, 110, 255, 207, 215, 83, 129, 77, 114, 45, 220 },
-                            PasswordSalt = new byte[] { 83, 226, 187, 63, 47, 245, 119, 69, 89, 137, 120, 126, 52, 175, 69, 250, 159, 253, 76, 195, 54, 56, 219, 206, 89, 8, 15, 41, 121, 248, 111, 5, 51, 148, 40, 207, 9, 196, 172, 225, 35, 4, 22, 223, 10, 185, 69, 71, 17, 206, 175, 78, 254, 165, 244, 77, 204, 255, 43, 86, 45, 132, 89, 157, 224, 167, 215, 105, 53, 225, 202, 212, 36, 81, 185, 176, 176, 174, 101, 143, 187, 232, 130, 68, 62, 217, 30, 150, 232, 249, 40, 201, 12, 165, 223, 121, 151, 68, 128, 189, 234, 82, 225, 186, 227, 155, 166, 91, 229, 56, 220, 213, 207, 254, 74, 54, 134, 126, 45, 164, 153, 129, 141, 143, 97, 71, 244, 239 },
+                            PasswordHash = new byte[] { 153, 102, 69, 8, 21, 201, 169, 109, 9, 126, 187, 43, 54, 82, 159, 106, 62, 94, 133, 138, 199, 84, 26, 4, 99, 118, 0, 39, 63, 37, 191, 80, 91, 210, 97, 254, 196, 136, 191, 7, 153, 232, 52, 162, 26, 213, 126, 69, 22, 39, 233, 40, 93, 234, 233, 94, 17, 101, 140, 45, 22, 103, 145, 71 },
+                            PasswordSalt = new byte[] { 50, 119, 47, 17, 227, 52, 25, 147, 129, 27, 215, 178, 254, 99, 77, 168, 214, 195, 146, 238, 101, 33, 42, 57, 218, 28, 171, 143, 28, 127, 37, 179, 114, 181, 135, 69, 63, 135, 89, 188, 105, 34, 85, 15, 188, 187, 72, 137, 84, 252, 147, 237, 163, 233, 89, 115, 242, 26, 22, 246, 179, 23, 163, 125, 188, 26, 178, 49, 224, 18, 148, 109, 57, 166, 30, 156, 105, 180, 227, 248, 185, 254, 99, 118, 62, 54, 86, 236, 242, 5, 97, 92, 29, 18, 73, 191, 21, 95, 218, 75, 21, 54, 137, 229, 78, 246, 86, 130, 85, 35, 210, 221, 120, 177, 36, 35, 201, 125, 152, 173, 7, 199, 126, 158, 220, 147, 87, 22 },
                             ProfilePicMediaId = 1,
                             RoleId = 1,
                             UserDescription = "Ja sam teo bla bla"
@@ -400,8 +412,8 @@ namespace Celestio.Api.Migrations
                             Email = "leonarda@404.com",
                             FirstName = "Leonarda",
                             LastName = "Lovrić",
-                            PasswordHash = new byte[] { 68, 63, 174, 59, 254, 110, 126, 90, 37, 130, 175, 208, 231, 81, 88, 150, 80, 23, 253, 69, 117, 77, 238, 91, 213, 136, 161, 198, 44, 86, 145, 223, 4, 76, 95, 209, 182, 55, 65, 254, 146, 194, 162, 136, 84, 220, 177, 121, 219, 126, 139, 182, 187, 129, 195, 236, 237, 69, 192, 44, 13, 121, 239, 57 },
-                            PasswordSalt = new byte[] { 252, 132, 84, 115, 232, 148, 3, 147, 153, 188, 126, 254, 153, 105, 252, 99, 63, 190, 5, 172, 29, 55, 84, 49, 167, 62, 179, 238, 96, 123, 98, 5, 178, 3, 78, 138, 237, 86, 69, 239, 48, 128, 19, 154, 232, 244, 60, 92, 239, 156, 178, 181, 173, 169, 113, 222, 57, 152, 116, 192, 20, 31, 234, 183, 128, 84, 238, 73, 217, 156, 174, 149, 93, 22, 153, 178, 141, 81, 200, 8, 109, 8, 8, 122, 132, 216, 199, 75, 179, 125, 204, 161, 91, 237, 107, 138, 53, 111, 244, 84, 104, 153, 104, 41, 29, 18, 152, 202, 220, 130, 9, 253, 254, 82, 72, 247, 210, 19, 160, 135, 172, 189, 142, 155, 203, 85, 100, 73 },
+                            PasswordHash = new byte[] { 122, 103, 21, 224, 82, 147, 198, 7, 7, 236, 25, 168, 109, 59, 194, 160, 107, 203, 126, 241, 52, 123, 110, 121, 232, 248, 171, 159, 98, 161, 141, 212, 178, 59, 123, 235, 9, 238, 248, 82, 148, 33, 219, 73, 208, 92, 185, 84, 181, 46, 118, 73, 17, 251, 61, 8, 112, 182, 149, 248, 67, 32, 231, 213 },
+                            PasswordSalt = new byte[] { 10, 210, 89, 106, 253, 27, 163, 15, 237, 102, 239, 28, 29, 178, 138, 32, 106, 23, 222, 167, 47, 64, 18, 94, 49, 111, 159, 203, 36, 56, 230, 124, 53, 226, 20, 166, 254, 235, 59, 251, 231, 21, 13, 63, 93, 92, 4, 170, 240, 12, 241, 81, 41, 140, 227, 35, 127, 244, 93, 57, 228, 245, 126, 138, 149, 151, 115, 169, 9, 130, 122, 218, 20, 73, 221, 233, 108, 116, 8, 78, 166, 47, 106, 105, 164, 183, 129, 74, 84, 196, 194, 218, 165, 65, 27, 246, 242, 188, 80, 186, 101, 166, 12, 49, 74, 73, 28, 1, 255, 86, 209, 29, 249, 14, 248, 250, 207, 72, 55, 247, 217, 128, 134, 51, 55, 184, 106, 246 },
                             ProfilePicMediaId = 1,
                             RoleId = 2,
                             UserDescription = "Ja sam leonarda bla bla"
@@ -429,11 +441,17 @@ namespace Celestio.Api.Migrations
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Brand", b =>
                 {
-                    b.HasOne("Celestio.Api.Data.Entities.Media", "ProfilePicMedia")
-                        .WithMany()
-                        .HasForeignKey("ProfilePicMediaId")
+                    b.HasOne("Celestio.Api.Data.Entities.Company", "Company")
+                        .WithMany("Brands")
+                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Celestio.Api.Data.Entities.Media", "ProfilePicMedia")
+                        .WithOne("Brand")
+                        .HasForeignKey("Celestio.Api.Data.Entities.Brand", "ProfilePicMediaId");
+
+                    b.Navigation("Company");
 
                     b.Navigation("ProfilePicMedia");
                 });
@@ -521,9 +539,17 @@ namespace Celestio.Api.Migrations
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Company", b =>
                 {
+                    b.Navigation("Brands");
+
                     b.Navigation("SocialMediae");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Celestio.Api.Data.Entities.Media", b =>
+                {
+                    b.Navigation("Brand")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Celestio.Api.Data.Entities.Role", b =>

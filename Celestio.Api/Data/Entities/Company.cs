@@ -9,10 +9,11 @@ public class Company
     public string CompanyDescription { get; set; }
     public CompanyType Type { get; set; }
     public string ContactEmail { get; set; }
-    public int ProfilePicMediaId { get; set; }
+    public int? ProfilePicMediaId { get; set; }
     public DateTime Created { get; set; }
     
-    public virtual Media ProfilePicMedia { get; set; }
+    public virtual Media? ProfilePicMedia { get; set; }
     public virtual ICollection<User> Users { get; set; }
+    public virtual ICollection<Brand> Brands { get; set; }
     public virtual ICollection<SocialMedia> SocialMediae { get; set; }
 }

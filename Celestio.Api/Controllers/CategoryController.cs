@@ -11,7 +11,7 @@ namespace Celestio.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoryController
+public class CategoryController : ControllerBase
 {
     private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
