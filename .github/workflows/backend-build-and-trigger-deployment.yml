@@ -55,4 +55,4 @@ jobs:
           -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/Celestio-dev/Celestio.Infrastructure/dispatches \
-          -d '{"event_type": "deploy-test-environment", "client_payload": {"ref": "refs/heads/test", "sha": "${{ github.sha }}"} }'
+          -d '{"event_type": "deploy-test-environment", "client_payload": {"ref": "refs/heads/main", "sha": "${{ github.sha }}"} }'
