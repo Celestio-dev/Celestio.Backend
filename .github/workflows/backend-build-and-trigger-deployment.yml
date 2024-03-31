@@ -16,8 +16,8 @@ jobs:
       uses: azure/docker-login@v1
       with:
         login-server: acrCelestioTest.azurecr.io
-        username: ${{ secrets.AZURE_CREDENTIALS_USERNAME }}
-        password: ${{ secrets.AZURE_CREDENTIALS_PASSWORD }}
+        username: ${{ secrets.AZURE_ACR_CREDENTIALS_USERNAME }}
+        password: ${{ secrets.AZURE_ACR_CREDENTIALS_PASSWORD }}
 
     - name: Build and push image
       run: |
