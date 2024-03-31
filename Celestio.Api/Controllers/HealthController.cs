@@ -14,6 +14,6 @@ public class HealthController : ControllerBase
     [HttpGet]
     public string GetHealth()
     {
-        return "OK OK OK";
+        return "OK";
     }
 }
