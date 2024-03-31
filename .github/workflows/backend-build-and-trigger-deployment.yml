@@ -9,15 +9,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    # Add steps to build your .NET Web API
-    # - name: Setup .NET Core
-    #   uses: actions/setup-dotnet@v1
-    # - name: Build
-    #   run: dotnet build YourSolution.sln --configuration Release
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.0.x' # Specify the .NET 8 version you are targeting
 
-    # This is a placeholder step. Replace with your actual build steps.
+    - name: Restore dependencies
+      run: dotnet restore Celestio.sln
+
+    - name: Build
+      run: dotnet build Celestio.sln --configuration Debug --no-restore
+
+    # - name: Test # Optionally, run your unit tests
+    #   run: dotnet test Celestio.sln --no-restore --verbosity normal
+
+    - name: Publish
+      run: dotnet publish Celestio.Api/Celestio.Api.csproj -c Debug -o ./publish --no-restore
+      # Make sure to adjust the path to your .csproj file
 
   trigger-deployment:
     runs-on: ubuntu-latest
