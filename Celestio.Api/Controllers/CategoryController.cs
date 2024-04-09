@@ -31,6 +31,12 @@ public class CategoryController : ControllerBase
         throw new NotImplementedException();
     }
     
+    
+    /// <summary>
+    /// for superadmin
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     [HttpPost]
     [AuthorizeRole(RolesEnum.SuperAdmin)]
     public async Task<ActionResult<CategoryDto>> CreateCategory()
@@ -38,6 +44,11 @@ public class CategoryController : ControllerBase
         throw new NotImplementedException();
     }
     
+    /// <summary>
+    /// for superadmin
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     [HttpPut]
     [AuthorizeRole(RolesEnum.SuperAdmin)]
     public async Task<ActionResult<CategoryDto>> UpdateCategory()

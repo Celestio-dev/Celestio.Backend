@@ -12,6 +12,7 @@ public class SocialMedia
     public SocialMediaEnum SocialMediaName { get; set; }
     public string SocialMediaUsername { get; set; }
     public string SocialMediaUrl { get; set; }
+    public int? FollowerCount { get; set; }
     public DateTime Created { get; set; }
     
     //public virtual Brand Brand { get; set; }
@@ -33,6 +34,8 @@ public class SocialMediaConfigurationBuilder : IEntityTypeConfiguration<SocialMe
             .IsRequired();
         builder.Property(x => x.SocialMediaUrl)
             .IsRequired();
+        builder.Property(x => x.FollowerCount)
+            .IsRequired(false);
         builder.Property(x => x.Created)
             .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();

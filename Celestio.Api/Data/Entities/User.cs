@@ -22,4 +22,5 @@ public class User
     public virtual Company Company { get; set; }
     public virtual Media ProfilePicMedia { get; set; }
     public virtual ICollection<SocialMedia> SocialMediae { get; set; }
+    public virtual ICollection<UserMedia> UserMediae { get; set; }
 }
