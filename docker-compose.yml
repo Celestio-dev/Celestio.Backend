@@ -6,3 +6,4 @@
       dockerfile: Celestio.Api/Dockerfile
     ports:
       - "5509:80"
+      - "5443:443"

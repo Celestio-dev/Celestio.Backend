@@ -64,6 +64,26 @@ public class SeedData
             MediaType = "aaa",
             MediaUrl = "lasbd url media"
         });
+        
+        // seed categories
+        builder.Entity<Category>().HasData(new Category
+        {
+            Id = 1,
+            CategoryName = "Makeup",
+            Created = DateTime.Now
+        },
+            new Category
+            {
+                Id = 2,
+                CategoryName = "Food",
+                Created = DateTime.Now
+            },
+            new Category
+            {
+                Id = 3,
+                CategoryName = "Cars",
+                Created = DateTime.Now
+            });
 
         // Seed user(s)
         UserHelper.CreatePasswordHash("Teo12345!", out byte[] passwordHash1, out byte[] passwordSalt1);

@@ -10,5 +10,7 @@ public class BrandProfile : Profile
     public BrandProfile()
     {
         CreateMap<Brand, BrandDto>();
+        
+        CreateMap<Brand, BrandMiniDto>();
     }
 }

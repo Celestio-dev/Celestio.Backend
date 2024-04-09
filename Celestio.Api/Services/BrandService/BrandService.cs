@@ -33,4 +33,14 @@ public class BrandService : IBrandService
         var brandDto = _mapper.Map<BrandDto?>(brandEntity);
         return brandDto;
     }
+
+    public async Task<List<BrandDto>?> GetBrandsByCompanyId(int companyId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<BrandMiniDto>?> GetBrandsDropdownByCompanyId(int companyId)
+    {
+        throw new NotImplementedException();
+    }
 }

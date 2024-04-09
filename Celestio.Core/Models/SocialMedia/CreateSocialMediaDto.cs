@@ -7,4 +7,6 @@ public class CreateSocialMediaDto
     public SocialMediaEnum SocialMediaName { get; set; }
     public string SocialMediaUsername { get; set; }
     public string SocialMediaUrl { get; set; }
+    public int? FollowerCount { get; set; }
+
 }
