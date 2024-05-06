@@ -1,0 +1,9 @@
+﻿services:
+  celestio.api:
+    image: celestio.api
+    build:
+      context: .
+      dockerfile: Celestio.Api/Dockerfile
+    ports:
+      - "5509:80"
+      - "5443:443"

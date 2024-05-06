@@ -1,0 +1,58 @@
+name: Build and Trigger Deployment
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Log in to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: acrCelestioTest.azurecr.io
+        username: ${{ secrets.AZURE_ACR_CREDENTIALS_USERNAME }}
+        password: ${{ secrets.AZURE_ACR_CREDENTIALS_PASSWORD }}
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Determine Tag
+      id: vars
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+        else
+          echo "::set-output name=tag::$(echo ${GITHUB_REF#refs/heads/} | tr / -)"
+        fi
+    - name: Build and push image
+      run: |
+        IMAGE_TAG=${{ steps.vars.outputs.tag }}
+        docker build . -f Celestio.Api/Dockerfile -t acrCelestioTest.azurecr.io/celestio.api:${IMAGE_TAG}
+        docker push acrCelestioTest.azurecr.io/celestio.api:${IMAGE_TAG}
+        
+       # # Optionally, also tag and push as 'latest' or 'test'
+       #  if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
+       #    docker tag <your_acr_name>.azurecr.io/your-image:${IMAGE_TAG} <your_acr_name>.azurecr.io/your-image:latest
+       #    docker push <your_acr_name>.azurecr.io/your-image:latest
+       #  elif [ "${GITHUB_REF}" == "refs/heads/test" ]; then
+       #    docker tag <your_acr_name>.azurecr.io/your-image:${IMAGE_TAG} <your_acr_name>.azurecr.io/your-image:test
+       #    docker push <your_acr_name>.azurecr.io/your-image:test
+       #  fi
+
+  trigger-deployment:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - name: Trigger Deployment Workflow in Infrastructure Repository
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/Celestio-dev/Celestio.Infrastructure/dispatches \
+          -d '{"event_type": "deploy-test-environment", "client_payload": {"ref": "refs/heads/main", "sha": "${{ github.sha }}"} }'
